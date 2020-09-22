@@ -1,0 +1,37 @@
+'''
+Principal component analysis (J-PLUS)
+'''
+#from __future__ import print_function
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+from scipy import stats
+import sys
+import glob
+import json
+import seaborn as sns
+import os.path
+from collections import OrderedDict
+from scipy.stats import gaussian_kde
+import pandas as pd
+
+label=[]
+label_dr1=[]
+X = []
+target = []
+
+pattern =  "*-spectros/*-JPLUS17-magnitude.json"
+
+sciifile = "g-band-PNModels.dat"
+for file_name in file_list:
+    with open(file_name) as f:
+        data = json.load(f)
+        data["F480_g_sdss"]
+        file=open(asciifile,'w') #create file  
+        for x,y in zip(wl, F_):  
+            file.write('%f  %s\n'%(x,y))     #assume you separate columns by tabs  
+        file.close()     #close file  
+        
+        
