@@ -53,8 +53,7 @@ parser.add_argument("--vmax_b", type=float, default=None,
                     help="""Set maximum brightness directly - overrides maxfactor - b""")
 
 parser.add_argument("--zoom", type=float, default=None,
-                    help="""\
-                   Zoom factor to adjust size of plot box - values > 1.0 mean to zoom in""")
+                    help="""\Zoom factor to adjust size of plot box - values > 1.0 mean to zoom in""")
 
 parser.add_argument("--position", type=str,
                     default="HYDRA-0026-000010640-position",
@@ -139,8 +138,8 @@ img.tick_labels.set_font(size=18, weight='medium', stretch='normal', family='san
 #img.tick_labels.hide_x()  # Hide the x axis
 #img.tick_labels.hide_y()  # Hide the y axis
 # Let's add a scalebar to it
-img.add_scalebar(3.0/3600.) #20
-img.scalebar.set_label('3"')
+img.add_scalebar(8.0/3600.) #20
+img.scalebar.set_label('8"')
 img.scalebar.set(color='white', linewidth=4, alpha=0.9)
 img.scalebar.set_font(size=45, weight='bold',
                       stretch='normal', family='sans-serif',
@@ -165,7 +164,10 @@ img.show_regions(position)
 # img.show_markers(ra, dec, layer='marker_set_1', edgecolor='red',
 #                  facecolor='red', marker='o', s=10, alpha=1.)
 #img.show_markers(ra, dec , layer="marker_set_1", edgecolor="red", facecolor="none", marker="o", s=10,  alpha=0.5)
-img.recenter(ra, dec, radius = cmd_args.zoom/3600.) #degree, for this reazon a split into 3600. #zoom ax2.recenter(ra0, dec0, 4*R0/cmd_args.zoom)
+try:
+    img.recenter(ra, dec, radius = cmd_args.zoom/3600.) #degree, for this reazon a split into 3600. #zoom ax2.recenter(ra0, dec0, 4*R0/cmd_args.zoom)
+except TypeError:
+    print("No zoom here")
 #img.show_markers(ra, dec, layer='marker', edgecolor='red', facecolor='none', marker='o', s=10, alpha=0.9, linewidths=100.)#, layer='marker_set_1', edgecolor='black', facecolor='none', s=30, alpha=0.5, linewidths=20)
 # img.scalebar.set_font(size=23, weight='bold',
 #                       stretch='normal', family='sans-serif',
@@ -181,4 +183,4 @@ if cmd_args.debug:
     print("Creating of PDF image of:", position.split('-p')[0])
     
 img.set_theme('publication')
-img.save(image_r.replace('_swp-crop.fits', '-RGB-zoom.jpg'))
+img.save(image_r.replace('_swp-crop.fits', '-RGB.pdf'))

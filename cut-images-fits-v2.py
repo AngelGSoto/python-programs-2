@@ -52,7 +52,7 @@ for line in f:
     line = line.strip()
     columns = line.split()
     coor = line.split("(")[-1].split("\"")[0]
-    ra1, dec1 = coor.split(",")[0:2]
+    ra1, dec1, radiu = coor.split(",")[0:3]
     crop_c = coord.SkyCoord(ra1, dec1, unit=(u.degree, u.degree))
     #locc = sys.argv[1:]
     # ra = input('Enter RA: ')
@@ -62,16 +62,9 @@ for line in f:
     print(crop_c)
     w = wcs.WCS(hdu[0].header)
     print(w)
-    #crop_coords = np.array(w.wcs_pix2world(hdu[0].data.shape[0]/2., 
-				       #hdu[0].data.shape[1]/2., 0))
-  
-    #crop_c = coord.SkyCoord(crop_coords[0], crop_coords[1], unit=u.degree)
-
-    #crop_radius=input('Enter Radius: ')
-    #crop_radius = 100*u.arcsec # es el que estoy usando cuando conozco la White Dwarf
-    #crop_radius = 28.0*u.arcsec
-    #crop_radius = 20.0*u.arcsec
-    crop_radius = 25.0*0.2*u.arcsec         # PNe en SMC
+     
+    crop_radius = float(radiu)*0.2*3.0*u.arcsec
+    #crop_radius = 100.0*0.2*u.arcsec         # PNe en SMC
     #crop_radius = 10.0*u.arcsec       # HII regions en SMC
     pix_scale = 0.0996*u.arcsec
     
@@ -95,6 +88,6 @@ for line in f:
     #################### 
     #Save the new file##
     ####################
-    outfile = regionfile.replace("_swp.fits", "_{}_swp-crop.fits".format(position.split("115-")[-1].split("-p")[0]))
+    outfile = regionfile.replace("_swp.fits", "_{}_swp-crop.fits".format(position.split("_p")[0].split("-p")[0]))
     new_hdu = fits.PrimaryHDU(hdu[0].data, header=hdu[0].header)
     new_hdu.writeto(outfile, output_verify="fix", overwrite=True)

@@ -72,7 +72,7 @@ if args.debug:
     print("Nember of objects:", len(tab[mask_total]))
 
 # Save new tables
-asciifile_Aper = file_.replace(".tab", "-mask-broad.tab")
+asciifile_Aper = file_.replace("-v1.tab", "-mask-broad-v1.tab")
 try:
     tab[mask_total].write(asciifile_Aper, format='ascii.tab', overwrite=True)
 except TypeError:
