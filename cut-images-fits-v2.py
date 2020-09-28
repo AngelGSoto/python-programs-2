@@ -63,7 +63,7 @@ for line in f:
     w = wcs.WCS(hdu[0].header)
     print(w)
      
-    crop_radius = float(radiu)*0.2*3.0*u.arcsec
+    crop_radius = float(radiu)*0.2*4.0*u.arcsec
     #crop_radius = 100.0*0.2*u.arcsec         # PNe en SMC
     #crop_radius = 10.0*u.arcsec       # HII regions en SMC
     pix_scale = 0.0996*u.arcsec
