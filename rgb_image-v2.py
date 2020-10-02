@@ -138,8 +138,8 @@ img.tick_labels.set_font(size=18, weight='medium', stretch='normal', family='san
 #img.tick_labels.hide_x()  # Hide the x axis
 #img.tick_labels.hide_y()  # Hide the y axis
 # Let's add a scalebar to it
-img.add_scalebar(8.0/3600.) #20
-img.scalebar.set_label('8"')
+img.add_scalebar(15.0/3600.) #20
+img.scalebar.set_label('15"')
 img.scalebar.set(color='white', linewidth=4, alpha=0.9)
 img.scalebar.set_font(size=45, weight='bold',
                       stretch='normal', family='sans-serif',

@@ -88,6 +88,6 @@ for line in f:
     #################### 
     #Save the new file##
     ####################
-    outfile = regionfile.replace("_swp.fits", "_{}_swp-crop.fits".format(position.split("_p")[0].split("-p")[0]))
+    outfile = regionfile.replace("_swp.fits", "_{}_swp-crop.fits".format(position.split("_p")[0]))
     new_hdu = fits.PrimaryHDU(hdu[0].data, header=hdu[0].header)
     new_hdu.writeto(outfile, output_verify="fix", overwrite=True)

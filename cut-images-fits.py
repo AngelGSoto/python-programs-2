@@ -71,7 +71,7 @@ for line in f:
     #crop_radius = 100*u.arcsec # es el que estoy usando cuando conozco la White Dwarf
     #crop_radius = 28.0*u.arcsec
     #crop_radius = 20.0*u.arcsec
-    crop_radius = 25.0*0.2*u.arcsec         # PNe en SMC
+    crop_radius = 60.0*0.2*u.arcsec         # PNe en SMC
     #crop_radius = 10.0*u.arcsec       # HII regions en SMC
     pix_scale = 0.0996*u.arcsec
     
@@ -95,6 +95,6 @@ for line in f:
     #################### 
     #Save the new file##
     ####################
-    outfile = regionfile.replace("_swp.fits", "_{}_swp-crop.fits".format(position.split("115-")[-1].split("-p")[0]))
+    outfile = regionfile.replace("_swp.fits", "_{}_swp-crop.fits".format(position.split("_p")[0]))
     new_hdu = fits.PrimaryHDU(hdu[0].data, header=hdu[0].header)
     new_hdu.writeto(outfile, output_verify="fix", overwrite=True)
