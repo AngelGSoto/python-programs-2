@@ -28,6 +28,7 @@ def criterio_error(aper):
     ef12 =  tab['zSDSS_'+aper+'_err'] <= 0.2
 
     errors = ef1 & ef6 & ef8 & ef10 & ef12
+    #errors = ef1 & ef2 & ef3 & ef4 & ef5 & ef6 & ef7 & ef8 & ef9 & ef10 & ef11 & ef12
     return errors
     
 parser = argparse.ArgumentParser(
@@ -64,15 +65,18 @@ total_mask_flags = mask_flag1 & mask_flag2 & mask_flag3 & mask_flag4 & mask_flag
 #Mask errorrs
 errors_mask = criterio_error("MAG_APER_6_0")
 
+# Mask P(Ne)
+P_mask =  tab['P(PN)'] >= 0.75
+
 # Total mask
-mask_total = total_mask_flags & errors_mask
+mask_total = total_mask_flags & errors_mask & P_mask
 
 if args.debug:
     print("Cleaning table:", file_)
     print("Nember of objects:", len(tab[mask_total]))
 
 # Save new tables
-asciifile_Aper = file_.replace("-v1.tab", "-mask-broad-v1.tab")
+asciifile_Aper = file_.replace(".tab", "-mask-broad-prob.tab")
 try:
     tab[mask_total].write(asciifile_Aper, format='ascii.tab', overwrite=True)
 except TypeError:
