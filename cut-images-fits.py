@@ -1,7 +1,6 @@
 '''
 Cuting images fits
 Based in pyFIST.py and extract-image.py from Henney program
-
 '''
 from __future__ import print_function
 import numpy as np
@@ -68,10 +67,9 @@ for line in f:
     #crop_c = coord.SkyCoord(crop_coords[0], crop_coords[1], unit=u.degree)
 
     #crop_radius=input('Enter Radius: ')
-    #crop_radius = 100*u.arcsec # es el que estoy usando cuando conozco la White Dwarf
-    #crop_radius = 28.0*u.arcsec
-    #crop_radius = 20.0*u.arcsec
-    crop_radius = 60.0*0.2*u.arcsec         # PNe en SMC
+    crop_radius = 600*0.2*u.arcsec # es el que estoy usando cuando conozco la White Dwarf
+    
+    #crop_radius = 60.0*0.2*u.arcsec         # PNe en SMC
     #crop_radius = 10.0*u.arcsec       # HII regions en SMC
     pix_scale = 0.0996*u.arcsec
     
@@ -83,7 +81,6 @@ for line in f:
     y1 = int(np.clip(crop_c_pix[1]-crop_radius_pixels, 0, hdu[0].data.shape[1]-1))
     y2 = int(np.clip(crop_c_pix[1]+crop_radius_pixels, 0, hdu[0].data.shape[1]-1))
     
-
     hdu[0].data = hdu[0].data[y1:y2, x1:x2]
     
     hdu[0].header['CRPIX1'] -= x1
@@ -95,6 +92,6 @@ for line in f:
     #################### 
     #Save the new file##
     ####################
-    outfile = regionfile.replace("_swp.fits", "_{}_swp-crop.fits".format(position.split("_p")[0]))
+    outfile = regionfile.replace("_swp.fits", "_{}_swp-crop.fits".format(position.split("-")[-1].split("_p")[0]))
     new_hdu = fits.PrimaryHDU(hdu[0].data, header=hdu[0].header)
     new_hdu.writeto(outfile, output_verify="fix", overwrite=True)

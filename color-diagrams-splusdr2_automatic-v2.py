@@ -37,12 +37,12 @@ def errormag(Aper, ef1, ef2, ef3, ef4):
 parser = argparse.ArgumentParser(
     description="""Make a table from the S-PLUS catalogs """)
 
-parser.add_argument("filesurce", type=str,
+parser.add_argument("fileName", type=str,
                     default="teste-program",
                     help="Name of catalog, taken the prefix ")
 
 cmd_args = parser.parse_args()
-fitsfile = cmd_args.filesurce + ".fits"
+fitsfile = cmd_args.fileName + ".fits"
 
 #Creating  dictionary
 col_names = ["r-i", "r-ha", "F515 - F861", "'F515 - F660", 
@@ -209,7 +209,7 @@ plt.tight_layout()
 pltfile = 'Fig1-{}-vironen.pdf'.format(fitsfile.split('.fit')[0])
 # save_path = '../../../../../Dropbox/paper-pne/Fig/'
 # file_save = os.path.join(save_path, pltfile)
-plt.savefig(pltfile)
+#plt.savefig(pltfile)
 #############################################################################################
 
 '''
@@ -275,8 +275,7 @@ plt.tight_layout()
 pltfile = 'Fig2-{}-J0515_J0660.pdf'.format(fitsfile.split('.fit')[0])
 #save_path = '../../../../../Dropbox/JPAS/paper-phot/'
 #file_save = os.path.join(save_path, pltfile)
-plt.savefig(pltfile)
-
+#plt.savefig(pltfile)
 plt.clf()
 ###########################################################
 #############################################################
@@ -343,7 +342,7 @@ plt.tight_layout()
 plt.tight_layout()
 pltfile = 'Fig3-{}-z.pdf'.format(fitsfile.split('.fit')[0])
 #file_save = os.path.join(save_path, pltfile)
-plt.savefig(pltfile)
+#plt.savefig(pltfile)
 plt.clf()
 ###############################################################
 ###############################################################
@@ -398,7 +397,7 @@ ax4.minorticks_on()
 plt.tight_layout()
 pltfile = 'Fig4-{}-g.pdf'.format(fitsfile.split('.fit')[0])
 #file_save = os.path.join(save_path, pltfile)
-plt.savefig(pltfile)
+#plt.savefig(pltfile)
 plt.clf()
 
 ####################################################################################
@@ -469,7 +468,8 @@ plt.tight_layout()
 plt.tight_layout()
 pltfile = 'Fig5-{}-gi.pdf'.format(fitsfile.split('.fit')[0])
 #file_save = os.path.join(save_path, pltfile)
-plt.savefig(pltfile)
+#plt.savefig(pltfile)
+plt.clf()
 
 ###########################################
 #PStotal ##################################
@@ -487,7 +487,7 @@ plt.tick_params(axis='x', labelsize=22)
 plt.tick_params(axis='y', labelsize=22)
 plt.xlabel('$r - i$', size =22)
 plt.ylabel('$r - J0660$', size =22) #edgecolor='black'
-ax.scatter(colours_pstotal["r-i"], colours_pstotal["r-ha"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, zorder=211.0, label='SMC PNe')
+ax.scatter(colours_pstotal["r-i"], colours_pstotal["r-ha"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='w', zorder=211.0, label='SMC PNe')
 #ax.errorbar(colours_pstotal["r-i"], colours_pstotal["r-ha"], xerr=colours_pstotal["e(r-i)"], yerr=colours_pstotal["e(r-ha)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
     
 result = findIntersection(0.43, 0.65, -6.8, -1.3, 0.0)
@@ -541,7 +541,7 @@ plt.tick_params(axis='x', labelsize=25)
 plt.tick_params(axis='y', labelsize=25)
 plt.xlabel('$J0515 - J0861$', size = 35)
 plt.ylabel('$J0515 - J0660$', size = 35)
-ax1.scatter(colours_pstotal["F515 - F861"], colours_pstotal["F515 - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100,  zorder=211.0, label='PN candidate')
+ax1.scatter(colours_pstotal["F515 - F861"], colours_pstotal["F515 - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='w', zorder=211.0, label='PN candidate')
 #ax1.errorbar(colours_pstotal["F515 - F861"], colours_pstotal["F515 - F660"], xerr=colours_pstotal["e(F515 - F861)"], yerr=colours_pstotal["e(F515 - F660)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
 
 # Region where are located the PNe
@@ -609,7 +609,7 @@ plt.tick_params(axis='x', labelsize=25)
 plt.tick_params(axis='y', labelsize=25)
 plt.xlabel('$z - g$', size =35)
 plt.ylabel('$z - J0660$', size =35)
-ax2.scatter(colours_pstotal["z - g"], colours_pstotal["z - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100,  zorder=211.0, label='PN candidate')
+ax2.scatter(colours_pstotal["z - g"], colours_pstotal["z - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='w', zorder=211.0, label='PN candidate')
 #ax2.errorbar(colours_pstotal["z - g"], colours_pstotal["z - F660"], xerr=colours_pstotal["e(z - g)"], yerr=colours_pstotal["e(z - F660)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
 
 result = findIntersection(0.2319, 0.85, -1.3, 1.7, 0.0)
@@ -676,7 +676,7 @@ plt.tick_params(axis='x', labelsize=25)
 plt.tick_params(axis='y', labelsize=25)
 plt.xlabel('$J0660 - r$', size =35)
 plt.ylabel('$g - J0515$', size =35)
-ax4.scatter(colours_pstotal["F660 - r"], colours_pstotal["g - F515"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100,  zorder=211.0, label='PN candidate')
+ax4.scatter(colours_pstotal["F660 - r"], colours_pstotal["g - F515"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='w', zorder=211.0, label='PN candidate')
 #ax4.errorbar(colours_pstotal["F660 - r"], colours_pstotal["g - F515"], xerr=colours_pstotal["e(F660 - r)"], yerr=colours_pstotal["e(g - F515)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
 
 # Region where are located the PNe
@@ -733,7 +733,7 @@ plt.tick_params(axis='x', labelsize=25)
 plt.tick_params(axis='y', labelsize=25)
 plt.xlabel('$g - i$', size=35)
 plt.ylabel('$J0410 - J0660$', size =35)
-ax5.scatter(colours_pstotal["g - i"], colours_pstotal["F410 - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, s=100,  zorder=211.0, label='PN candidate')
+ax5.scatter(colours_pstotal["g - i"], colours_pstotal["F410 - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, s=100, edgecolor='w',  zorder=211.0, label='PN candidate')
 #ax5.errorbar(colours_pstotal["g - i"], colours_pstotal["F410 - F660"], xerr=colours_pstotal["e(g - i)"], yerr=colours_pstotal["e(F410 - F660)"],  marker='.', fmt='.', color= sns.xkcd_rgb["light orange"], elinewidth=0.9, markeredgewidth=0.9, alpha=0.3, capsize=3)
 
 # Region where are located the PNe
