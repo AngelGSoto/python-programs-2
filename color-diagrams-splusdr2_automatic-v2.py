@@ -57,8 +57,13 @@ colours0 = {c: [np.empty((nsourse,))] for c in col_names}
 colours_pstotal = {c: [np.empty((nsourse,))] for c in col_names}
 
 #Read de files
-hdu = fits.open(fitsfile)
-tab_ = hdu[1].data
+try:
+    hdu = fits.open(fitsfile)
+    tab_ = hdu[1].data
+except FileNotFoundError:
+    fitsfile = cmd_args.fileName + ".tab"
+    tab_ = Table.read(fitsfile, format="ascii.tab")
+
 #########################################################################
 #Color Aper#############################################################
 #########################################################################
@@ -171,7 +176,7 @@ plt.tick_params(axis='x', labelsize=22)
 plt.tick_params(axis='y', labelsize=22)
 plt.xlabel('$r - i$', size =22)
 plt.ylabel('$r - J0660$', size =22) #edgecolor='black'
-ax.scatter(colours0["r-i"], colours0["r-ha"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, zorder=211.0, label='SMC PNe')
+ax.scatter(colours0["r-i"], colours0["r-ha"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='white', zorder=211.0, label= 'PN candidate')
 #ax.errorbar(colours0["r-i"], colours0["r-ha"], xerr=colours0["e(r-i)"], yerr=colours0["e(r-ha)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
     
 result = findIntersection(0.43, 0.65, -6.8, -1.3, 0.0)
@@ -225,7 +230,7 @@ plt.tick_params(axis='x', labelsize=25)
 plt.tick_params(axis='y', labelsize=25)
 plt.xlabel('$J0515 - J0861$', size = 35)
 plt.ylabel('$J0515 - J0660$', size = 35)
-ax1.scatter(colours0["F515 - F861"], colours0["F515 - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100,  zorder=211.0, label='PN candidate')
+ax1.scatter(colours0["F515 - F861"], colours0["F515 - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='white', zorder=211.0, label='PN candidate')
 #ax1.errorbar(colours0["F515 - F861"], colours0["F515 - F660"], xerr=colours0["e(F515 - F861)"], yerr=colours0["e(F515 - F660)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
 
 # Region where are located the PNe
@@ -292,7 +297,7 @@ plt.tick_params(axis='x', labelsize=25)
 plt.tick_params(axis='y', labelsize=25)
 plt.xlabel('$z - g$', size =35)
 plt.ylabel('$z - J0660$', size =35)
-ax2.scatter(colours0["z - g"], colours0["z - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100,  zorder=211.0, label='PN candidate')
+ax2.scatter(colours0["z - g"], colours0["z - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='white', zorder=211.0, label='PN candidate')
 #ax2.errorbar(colours0["z - g"], colours0["z - F660"], xerr=colours0["e(z - g)"], yerr=colours0["e(z - F660)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
 
 result = findIntersection(0.2319, 0.85, -1.3, 1.7, 0.0)
@@ -359,7 +364,7 @@ plt.tick_params(axis='x', labelsize=25)
 plt.tick_params(axis='y', labelsize=25)
 plt.xlabel('$J0660 - r$', size =35)
 plt.ylabel('$g - J0515$', size =35)
-ax4.scatter(colours0["F660 - r"], colours0["g - F515"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100,  zorder=211.0, label='PN candidate')
+ax4.scatter(colours0["F660 - r"], colours0["g - F515"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='white', zorder=211.0, label='PN candidate')
 #ax4.errorbar(colours0["F660 - r"], colours0["g - F515"], xerr=colours0["e(F660 - r)"], yerr=colours0["e(g - F515)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
 
 # Region where are located the PNe
@@ -416,7 +421,7 @@ plt.tick_params(axis='x', labelsize=25)
 plt.tick_params(axis='y', labelsize=25)
 plt.xlabel('$g - i$', size=35)
 plt.ylabel('$J0410 - J0660$', size =35)
-ax5.scatter(colours0["g - i"], colours0["F410 - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, s=100,  zorder=211.0, label='PN candidate')
+ax5.scatter(colours0["g - i"], colours0["F410 - F660"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, s=100, edgecolor='white', zorder=211.0, label='PN candidate')
 #ax5.errorbar(colours0["g - i"], colours0["F410 - F660"], xerr=colours0["e(g - i)"], yerr=colours0["e(F410 - F660)"],  marker='.', fmt='.', color= sns.xkcd_rgb["light orange"], elinewidth=0.9, markeredgewidth=0.9, alpha=0.3, capsize=3)
 
 # Region where are located the PNe
@@ -475,7 +480,7 @@ plt.clf()
 #PStotal ##################################
 ###########################################
 
-urrent_palette = sns.color_palette()
+current_palette = sns.color_palette()
 sns.palplot(current_palette)
 lgd_kws = {'frameon': True, 'fancybox': True, 'shadow': True}
 sns.set_style('ticks')       
@@ -487,7 +492,7 @@ plt.tick_params(axis='x', labelsize=22)
 plt.tick_params(axis='y', labelsize=22)
 plt.xlabel('$r - i$', size =22)
 plt.ylabel('$r - J0660$', size =22) #edgecolor='black'
-ax.scatter(colours_pstotal["r-i"], colours_pstotal["r-ha"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='w', zorder=211.0, label='SMC PNe')
+ax.scatter(colours_pstotal["r-i"], colours_pstotal["r-ha"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='w', zorder=211.0, label='PN candidate')
 #ax.errorbar(colours_pstotal["r-i"], colours_pstotal["r-ha"], xerr=colours_pstotal["e(r-i)"], yerr=colours_pstotal["e(r-ha)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
     
 result = findIntersection(0.43, 0.65, -6.8, -1.3, 0.0)
@@ -522,7 +527,10 @@ ax.legend(scatterpoints=1, ncol=2, fontsize=12.3, loc="lower right", **lgd_kws)
 #ax.grid()
 #sns.despine(bottom=True)
 plt.tight_layout()
-pltfile = 'Fig1-{}-vironen-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+if fitsfile.endswith("fits"):
+    pltfile = 'Fig1-{}-viironen-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+else:
+    pltfile = 'Fig1-{}-viironen-pstotal.pdf'.format(fitsfile.split('.tab')[0])
 # save_path = '../../../../../Dropbox/paper-pne/Fig/'
 # file_save = os.path.join(save_path, pltfile)
 plt.savefig(pltfile)
@@ -588,11 +596,13 @@ ax1.minorticks_on()
 #ax1.legend(scatterpoints=1, ncol=2, fontsize=12.3, loc="lower right", **lgd_kws)
 #ax1.grid()
 plt.tight_layout()
-pltfile = 'Fig2-{}-J0515_J0660-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+if fitsfile.endswith("fits"):
+    pltfile = 'Fig2-{}-J0515_J0660-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+else:
+    pltfile = 'Fig2-{}-J0515_J0660-pstotal.pdf'.format(fitsfile.split('.tab')[0])
 #save_path = '../../../../../Dropbox/JPAS/paper-phot/'
 #file_save = os.path.join(save_path, pltfile)
 plt.savefig(pltfile)
-
 plt.clf()
 ###########################################################
 #############################################################
@@ -657,7 +667,10 @@ ax2.minorticks_on()
 #sns.despine(bottom=True)
 plt.tight_layout()
 plt.tight_layout()
-pltfile = 'Fig3-{}-z-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+if fitsfile.endswith("fits"):
+    pltfile = 'Fig3-{}-z-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+else:
+    pltfile = 'Fig3-{}-z-pstotal.pdf'.format(fitsfile.split('.tab')[0])
 #file_save = os.path.join(save_path, pltfile)
 plt.savefig(pltfile)
 plt.clf()
@@ -712,7 +725,10 @@ ax4.minorticks_on()
 #ax4.grid()
 #sns.despine(bottom=True)
 plt.tight_layout()
-pltfile = 'Fig4-{}-g-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+if fitsfile.endswith("fits"):
+    pltfile = 'Fig4-{}-g-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+else:
+    pltfile = 'Fig4-{}-g-pstotal.pdf'.format(fitsfile.split('.tab')[0])
 #file_save = os.path.join(save_path, pltfile)
 plt.savefig(pltfile)
 plt.clf()
@@ -783,6 +799,9 @@ ax5.minorticks_on()
 #sns.despine(bottom=True)
 plt.tight_layout()
 plt.tight_layout()
-pltfile = 'Fig5-{}-gi-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+if fitsfile.endswith("fits"):
+    pltfile = 'Fig5-{}-gi-pstotal.pdf'.format(fitsfile.split('.fit')[0])
+else:
+    pltfile = 'Fig5-{}-gi-pstotal.pdf'.format(fitsfile.split('.tab')[0])
 #file_save = os.path.join(save_path, pltfile)
 plt.savefig(pltfile)
