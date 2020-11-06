@@ -66,7 +66,7 @@ total_mask_flags = mask_flag1 & mask_flag2 & mask_flag3 & mask_flag4 & mask_flag
 errors_mask = criterio_error("MAG_APER_6_0")
 
 # Mask P(Ne)
-P_mask =  tab['P(PN)'] >= 0.75
+P_mask =  tab['P(SySt)'] >= 0.75
 
 # Total mask
 mask_total = total_mask_flags & errors_mask & P_mask
@@ -76,8 +76,8 @@ if args.debug:
     print("Nember of objects:", len(tab[mask_total]))
 
 # Save new tables
-asciifile_Aper = file_.replace(".tab", "-mask-broad-prob.tab")
+asciifile_Aper = file_.replace(".tab", "-prob.tab")
 try:
-    tab[mask_total].write(asciifile_Aper, format='ascii.tab', overwrite=True)
+    tab[P_mask].write(asciifile_Aper, format='ascii.tab', overwrite=True)
 except TypeError:
-    tab[mask_total].write(asciifile_Aper, format='ascii.tab')
+    tab[P_mask].write(asciifile_Aper, format='ascii.tab')

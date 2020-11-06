@@ -78,10 +78,10 @@ instrument_b = hdul_b[0].header['FILTER']
 #aplpy.make_rgb_cube(['1000001-JPLUS-01485-v2_iSDSS_swp-crop.fits', '1000001-JPLUS-01485-v2_rSDSS_swp-crop.fits',
                      #'1000001-JPLUS-01485-v2_gSDSS_swp-crop.fits'], 'JPLUS_cube.fits')
 
-aplpy.make_rgb_cube([image_r, image_g, image_b], image_r.replace('_swp-crop.fits', '_cube.fits'))
+aplpy.make_rgb_cube([image_r, image_g, image_b], image_r.replace('.fits', '_cube.fits'))
 
-aplpy.make_rgb_image(image_r.replace('_swp-crop.fits', '_cube.fits'),
-                              image_r.replace('_swp-crop.fits', '_rgb.png'),
+aplpy.make_rgb_image(image_r.replace('.fits', '_cube.fits'),
+                              image_r.replace('.fits', '_rgb.png'),
                       vmin_r=cmd_args.vmin_r, vmax_r=cmd_args.vmax_r, vmin_g=cmd_args.vmin_g,
                                                       vmax_g=cmd_args.vmax_g, vmin_b=cmd_args.vmin_b, vmax_b=cmd_args.vmax_b)
 
@@ -115,8 +115,8 @@ except FileNotFoundError:
                 "not found - is not necesary now")
     
 # Launch APLpy figure of 2D cube
-img = aplpy.FITSFigure(image_r.replace('_swp-crop.fits', '_cube_2d.fits')) 
-img.show_rgb(image_r.replace('_swp-crop.fits', '_rgb.png'))
+img = aplpy.FITSFigure(image_r.replace('.fits', '_cube_2d.fits')) 
+img.show_rgb(image_r.replace('.fits', '_rgb.png'))
 
 # Maybe we would like the arcsinh stretched image more?
 #img.show_rgb('ic348_color_arcsinh.png')
@@ -156,7 +156,10 @@ dx, dy = 0.001, -0.001
 #                     "alpha": 0.5, "boxstyle": "round, pad=0.5"},
 #               weight='bold', size=55, relative=True, zorder=999)
 
-img.show_regions(position)
+try:
+    img.show_regions(position)
+except FileNotFoundError: 
+    print('Region not found')
 # except FileNotFoundError:
 #     print("File", position,
 #                 "not found - is not necesary now")
@@ -183,4 +186,7 @@ if cmd_args.debug:
     print("Creating of PDF image of:", position.split('-p')[0])
     
 img.set_theme('publication')
-img.save(image_r.replace('_swp-crop.fits', '-RGB.pdf'))
+if image_r.endswith("_swp-crop.fits"):
+    img.save(image_r.replace('_swp-crop.fits', '-RGB.pdf'))
+else:
+    img.save(image_r.replace('.fits', '-RGB.pdf'))

@@ -289,7 +289,7 @@ plt.tick_params(axis='x', labelsize=22)
 plt.tick_params(axis='y', labelsize=22)
 plt.xlabel('$r - i$', size =22)
 plt.ylabel('$r - J0660$', size =22) #edgecolor='black'
-ax.scatter(colours0["r-i"], colours0["r-ha"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='white', zorder=211.0, label='All objects')
+ax.scatter(colours0["r-i"], colours0["r-ha"], c=sns.xkcd_rgb['cerulean'], alpha=0.7, marker ='o', s=100, edgecolor='white', zorder=211.0, label='PN candidates')
 #ax.errorbar(colours0["r-i"], colours0["r-ha"], xerr=colours0["e(r-i)"], yerr=colours0["e(r-ha)"], marker='.', fmt='.', color= sns.xkcd_rgb["black"], elinewidth=0.9, markeredgewidth=0.9, capsize=3)
 ax.scatter(colours1["r-i"], colours1["r-ha"], c=sns.xkcd_rgb['dark pink'], alpha=0.8, marker ='o', s=100, edgecolor='white', zorder=211.0, label='Known PNe')
     
@@ -321,7 +321,7 @@ ax.minorticks_on()
 # ax.minorticks_on()
 
 #ax1.grid(which='minor')#, lw=0.3)
-ax.legend(scatterpoints=1, ncol=2, fontsize=12.3, loc="lower right", **lgd_kws)
+ax.legend(scatterpoints=1, ncol=1, fontsize=12.3, loc="lower right", **lgd_kws)
 #ax.grid()
 #sns.despine(bottom=True)
 plt.tight_layout()
@@ -367,8 +367,8 @@ x_new2_s = np.linspace(result1, 15.5, 200)
 y_s = 5.5*x_new_s - 6.45
 yy_s = 0.98*x_new2_s - 0.16
 
-ax1.plot(x_new_s, y_s, color='r', linestyle='--')
-ax1.plot(x_new2_s, yy_s , color='r', linestyle='--')
+#ax1.plot(x_new_s, y_s, color='r', linestyle='--')
+#ax1.plot(x_new2_s, yy_s , color='r', linestyle='--')
 
 # source_label(ax1, "", x1_np_MAG_APER_6_0_0, y1_np_MAG_APER_6_0_0, dx=-45)
 # source_label(ax1, "LEDA 2790884", x1_np_MAG_APER_6_0_3, y1_np_MAG_APER_6_0_3, dx=8)
@@ -507,8 +507,8 @@ yy_s = -2.66*x_new2_s - 2.2
 
 plt.text(0.05, 0.07, 'hPN zone',
          transform=ax4.transAxes, fontsize=22)
-plt.text(0.05, 0.92, 'SySt Zone',
-         transform=ax4.transAxes, color="red", fontsize=22)
+#plt.text(0.05, 0.92, 'SySt Zone',
+         #transform=ax4.transAxes, color="red", fontsize=22)
 # ax4.minorticks_on()
 
 ax4.minorticks_on()
@@ -563,8 +563,8 @@ x_new2_s = np.linspace(result1, 15.5, 200)
 y_s = -5.2*x_new_s + 10.60
 yy_s = 2.13*x_new2_s - 1.43
 
-ax5.plot(x_new_s, y_s, color='r', linestyle='--')
-ax5.plot(x_new2_s, yy_s , color='r', linestyle='--')
+#ax5.plot(x_new_s, y_s, color='r', linestyle='--')
+#ax5.plot(x_new2_s, yy_s , color='r', linestyle='--')
 
 # source_label(ax5, "", x5_np_MAG_APER_6_0_0, y5_np_MAG_APER_6_0_0, dy=-4.5)
 # source_label(ax5, "LEDA 2790884", x5_np_MAG_APER_6_0_3, y5_np_MAG_APER_6_0_3, dx=10, dy=-4.5)
