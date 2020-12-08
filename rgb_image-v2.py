@@ -189,4 +189,4 @@ img.set_theme('publication')
 if image_r.endswith("_swp-crop.fits"):
     img.save(image_r.replace('_swp-crop.fits', '-RGB.pdf'))
 else:
-    img.save(image_r.replace('.fits', '-RGB.pdf'))
+    img.save(image_r.replace('.fits', '-RGB.jpg'))

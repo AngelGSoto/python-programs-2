@@ -109,7 +109,6 @@ def plot_mag_PN(f1, f2, f3, f4):
         PN_x.append(a)
         PN_y.append(b)
 
-    
 label = []
 
 n = 8
@@ -126,6 +125,39 @@ for file_name2 in file_list2:
         data = json.load(f2)
         plot_mag_PN("SLOAN_SDSS_g", "SLOAN_SDSS_r", "SLOAN_SDSS_r", "SLOAN_SDSS_i")
 
+##################################################################################
+# Galaxy SDSS              #######################################################
+##################################################################################
+datadir = "SDSS/"
+datadir1 = "HIIGalaxies-amanda/"
+fitsfile = "Skyserver_CrossID11_16_2020_8_50_57_PM.fits"
+#hdulist= fits.open(os.path.join(datadir, fitsfile))
+
+fitsfile_model = "Skyserver_CrossID11_17_2020_6_14_53_PM_modelMag_HIIGalaxies.fits"
+hdulist = fits.open(os.path.join(datadir, fitsfile_model))
+
+def sdss(hdulist, filter_1, filter_2, filter_3, filter_4):
+    band1 = hdulist[1].data[filter_1]
+    band2 = hdulist[1].data[filter_2]
+    band3 = hdulist[1].data[filter_3]
+    band4 = hdulist[1].data[filter_4]
+    return (band1 - band2), (band3 - band4)
+
+# Galaxias
+gr, ri = sdss(hdulist, "modelMag_g", "modelMag_r", "modelMag_r", "modelMag_i")
+
+#WD from SDSS
+fitsfile1 = "TAP_1_J_apj_167_40_catalog_WD.fits"
+hdulist1 = fits.open(os.path.join(datadir, fitsfile1))
+
+gr_wd, ri_wd = sdss(hdulist1, "gmag", "rmag", "rmag", "imag")
+
+#HII galaxy from Amanda sample
+fitsfile2 = "Skyserver_CrossID11_21_2020_HIIGalaxies.fits"
+hdulist2 = fits.open(os.path.join(datadir1, fitsfile2))
+gr_hii, ri_hii = sdss(hdulist2, "modelMag_g", "modelMag_r", "modelMag_r", "modelMag_i")
+
+#################################################################################
 AB = np.vstack([PN_x, PN_y])
 z = gaussian_kde(AB)(AB)
 df=pd.DataFrame({'x': np.array(PN_x), 'y': np.array(PN_y) })
@@ -133,9 +165,9 @@ df=pd.DataFrame({'x': np.array(PN_x), 'y': np.array(PN_y) })
 # Sort the points by density, so that the densest points are plotted last
 idx = z.argsort()
 x, y, z = np.array(PN_x)[idx], np.array(PN_y)[idx], z[idx]
-##############################################################################
+################################################################################
 #plots
-##############################################################################
+################################################################################
 lgd_kws = {'frameon': True, 'fancybox': True, 'shadow': True}
 #sns.set(style="dark", context="talk")
 #sns.set_style('ticks')
@@ -153,29 +185,30 @@ plt.xlabel(r'$g - r$', fontsize= 25)
 plt.ylabel(r'$r - i$', fontsize= 25)
 #plt.plot( 'x', 'y', data=df, linestyle='', marker='o')
 ax1.scatter(x, y, c=z, s=50, alpha=0.4, edgecolor='')
-ax1.scatter(A1[0], B1[0], c= sns.xkcd_rgb["aqua"], alpha=0.7, s=80, marker='o', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='HPNe')
-ax1.scatter(A1[2], B1[2],  c= sns.xkcd_rgb["bright red"], alpha=0.6, s=80, marker='o', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='SySt')
-ax1.scatter(A1[1], B1[1], c= sns.xkcd_rgb["pale yellow"], alpha=0.8, s=60, marker='o', facecolors='none', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='CV')
-ax1.scatter(A1[3], B1[3],  c= "lightsalmon", alpha=0.8, s=110, cmap=plt.cm.hot, marker='*',  edgecolor='black', label='YSOs')
-ax1.scatter(A1[4], B1[4],  c=sns.xkcd_rgb['azure'], alpha=0.8, s=80, cmap=plt.cm.hot, marker='^', edgecolor='black', zorder=111, label='B[e] stars')
-ax1.scatter(A1[6], B1[6],  c=sns.xkcd_rgb['light orange'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='HII regions')
-ax1.scatter(A1[5], B1[5],  c=sns.xkcd_rgb['neon purple'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='BCDs')
-ax1.scatter(A1[7], B1[7],  c=sns.xkcd_rgb['mint green'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='Normal stars')
+ax1.scatter(A1[0], B1[0], c = sns.xkcd_rgb["aqua"], alpha=0.7, s=80, marker='o', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='HPNe')
+ax1.scatter(A1[2], B1[2], c = sns.xkcd_rgb["bright red"], alpha=0.6, s=80, marker='o', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='SySt')
+ax1.scatter(A1[1], B1[1], c = sns.xkcd_rgb["pale yellow"], alpha=0.8, s=60, marker='o', facecolors='none', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='CV')
+ax1.scatter(A1[3], B1[3], c = sns.xkcd_rgb["light salmon"], alpha=0.8, s=110, cmap=plt.cm.hot, marker='*',  edgecolor='black', label='YSOs')
+ax1.scatter(A1[4], B1[4], c = sns.xkcd_rgb['azure'], alpha=0.8, s=80, cmap=plt.cm.hot, marker='^', edgecolor='black', zorder=111, label='B[e] stars')
+ax1.scatter(A1[6], B1[6], c = sns.xkcd_rgb['light orange'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='HII regions')
+ax1.scatter(A1[5], B1[5], c = sns.xkcd_rgb['neon purple'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='BCDs')
+ax1.scatter(gr, ri, c = sns.xkcd_rgb['neon purple'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110)
+ax1.scatter(gr_wd, ri_wd, c = sns.xkcd_rgb['green'], alpha=0.6, s=50, cmap=plt.cm.hot, marker='o',  edgecolor='black', zorder=110, label='WDs')
+ax1.scatter(A1[7], B1[7], c = sns.xkcd_rgb['mint green'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='Normal stars')
+ax1.scatter(gr_hii, ri_hii, c = sns.xkcd_rgb['cerulean'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='o',  edgecolor='black', zorder=110, label='HII galaxies')
 #plt.axhline(y=-0.4, c="k", linestyle='-.', zorder=120)
 
 # Region where are located the PNe
-result = findIntersection(0.0, -0.4, -0.75, -0.7, 0.0)
+result = findIntersection(0.0, -0.7, -0.75, -0.7, 0.0)
 
 x_new = np.linspace(-15.5, result,  200)
 x_new2 = np.linspace(result, 10.0, 200)
-y = 0*x_new - 0.4
+y = 0*x_new - 0.7
 yy = -0.75*x_new2 - 0.7
 #Mask
 #mask = y >= result_y - 0.5
 ax1.plot(x_new, y, color='k', zorder=300, linestyle='-.')
 ax1.plot(x_new2, yy , color='k', zorder=300, linestyle='-.')
-
-
 #ax1.scatter(A1[6], B1[6],  c=sns.xkcd_rgb['greyish'], alpha=0.8, s=70, cmap=plt.cm.hot, marker='*',  edgecolor='black', zorder=90, label='MS and Giant stars')
 #ax1 = sns.kdeplot(A1[6], B1[6],
                  #cmap="Blues", shade=True, shade_lowest=False)
@@ -202,9 +235,6 @@ ax1.plot(x_new2, yy , color='k', zorder=300, linestyle='-.')
 # ax1.annotate("PNG 135.9+55.9", (d_768_jplus[1], d_644_jplus[1]), alpha=8, size=8,
 #                    xytext=(68, -10), textcoords='offset points', ha='right', va='bottom', color='green',)
 
-
-
-
 #Region Halpha Emitters
 plt.text(0.1, 0.04, 'CLOUDY modelled PNe',
          transform=ax1.transAxes, fontsize=13.8)
@@ -213,7 +243,6 @@ plt.text(0.1, 0.04, 'CLOUDY modelled PNe',
 
 #reddening vector
 #redde_vector(-1.26260948181, -0.875335025787, -0.909874053228, -0.814979598636, 0.7, 1.2, -0.2, -0.1) #E=0.7
-
 ax1.minorticks_on()
 #ax1.grid(which='minor')#, lw=0.3)
 ax1.legend(scatterpoints=1, ncol=1, fontsize=11.0, loc='upper left', **lgd_kws)
@@ -226,13 +255,13 @@ plt.tight_layout()
 plt.tight_layout()
 #plt.savefig('luis-JPLUS-Viironen.pdf')#,  bbox_extra_artists=(lgd,), bbox_inches='tight')
 pltfile = 'Fig1-ri_vs_gr.pdf'
-save_path = 'plots-sdss/'
+save_path = 'SDSS/plots-sdss/'
 file_save = os.path.join(save_path, pltfile)
 plt.savefig(file_save)
 #plt.savefig('Fig1-JPLUS17-Viironen.pdf')
 plt.clf()
-##################################################################################3
-# Halpha -HalphaC vs OVi - OVICo##################################################
+###################################################################################
+# Halpha -HalphaC vs OVi - OVICo###################################################
 ###################################################################################
 
 n = 8
@@ -250,6 +279,17 @@ for file_name2 in file_list2:
         data = json.load(f2)
         plot_mag_PN("SLOAN_SDSS_u", "SLOAN_SDSS_g", "SLOAN_SDSS_r", "SLOAN_SDSS_i")
 
+#Galaxies from SDSS
+ug, ri = sdss(hdulist, "modelMag_u", "modelMag_g", "modelMag_r", "modelMag_i")
+
+#WD SDSS
+ug_wd, ri_wd = sdss(hdulist1, "umag", "gmag", "rmag", "imag")
+
+#HII galaxy from Amanda sample
+ug_hii, ri_hiii = sdss(hdulist2, "modelMag_u", "modelMag_g", "modelMag_r", "modelMag_i")
+
+#################################################################################
+
 AB = np.vstack([PN_x, PN_y])
 z = gaussian_kde(AB)(AB)
 df=pd.DataFrame({'x': np.array(PN_x), 'y': np.array(PN_y) })
@@ -258,7 +298,7 @@ df=pd.DataFrame({'x': np.array(PN_x), 'y': np.array(PN_y) })
 idx = z.argsort()
 x, y, z = np.array(PN_x)[idx], np.array(PN_y)[idx], z[idx]
         
-##############################################################################
+###############################################################################
 #plots
 lgd_kws = {'frameon': True, 'fancybox': True}#, 'shadow': True}
 #sns.set(style="dark", context="talk")
@@ -275,23 +315,26 @@ plt.tick_params(axis='y', labelsize=25)
 plt.xlabel(r'$u - g$', fontsize= 25)
 plt.ylabel(r'$r - i$', fontsize= 25)
 ax2.scatter(x, y, c=z, s=50, alpha=0.4, edgecolor='')
-ax2.scatter(A1[0], B1[0],  c= sns.xkcd_rgb["aqua"], alpha=0.7, s=80, marker='o', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='HPNe')
-ax2.scatter(A1[2], B1[2],  c= sns.xkcd_rgb["bright red"], alpha=0.6, s=80, marker='o', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='SySt')
-ax2.scatter(A1[1], B1[1], c= sns.xkcd_rgb["pale yellow"], alpha=0.8, s=60, marker='o', facecolors='none', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='CV')
-ax2.scatter(A1[3], B1[3],  c= "lightsalmon", alpha=0.8, s=110, cmap=plt.cm.hot, marker='*',  edgecolor='black', label='YSOs')
-ax2.scatter(A1[4], B1[4],  c=sns.xkcd_rgb['azure'], alpha=0.8, s=80, cmap=plt.cm.hot, marker='^', edgecolor='black', zorder=111, label='B[e] stars')
-ax2.scatter(A1[6], B1[6],  c=sns.xkcd_rgb['light orange'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='HII regions')
-ax2.scatter(A1[5], B1[5],  c=sns.xkcd_rgb['neon purple'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='BCDs')
-ax2.scatter(A1[7], B1[7],  c=sns.xkcd_rgb['mint green'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='Normal stars')
+ax2.scatter(A1[0], B1[0], c = sns.xkcd_rgb["aqua"], alpha=0.7, s=80, marker='o', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='HPNe')
+ax2.scatter(A1[2], B1[2], c = sns.xkcd_rgb["bright red"], alpha=0.6, s=80, marker='o', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='SySt')
+ax2.scatter(A1[1], B1[1], c = sns.xkcd_rgb["pale yellow"], alpha=0.8, s=60, marker='o', facecolors='none', cmap=plt.cm.hot, edgecolor='black', zorder=122.0, label='CV')
+ax2.scatter(A1[3], B1[3], c = sns.xkcd_rgb["light salmon"], alpha=0.8, s=110, cmap=plt.cm.hot, marker='*',  edgecolor='black', label='YSOs')
+ax2.scatter(A1[4], B1[4], c = sns.xkcd_rgb['azure'], alpha=0.8, s=80, cmap=plt.cm.hot, marker='^', edgecolor='black', zorder=111, label='B[e] stars')
+ax2.scatter(A1[6], B1[6], c = sns.xkcd_rgb['light orange'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='HII regions')
+ax2.scatter(A1[5], B1[5], c = sns.xkcd_rgb['neon purple'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='BCDs')
+ax2.scatter(ug, ri, c = sns.xkcd_rgb['neon purple'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='BCDs')
+ax2.scatter(ug_wd, ri_wd, c = sns.xkcd_rgb['green'], alpha=0.6, s=50, cmap=plt.cm.hot, marker='o',  edgecolor='black', zorder=110, label='WDs')
+ax2.scatter(A1[7], B1[7], c = sns.xkcd_rgb['mint green'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='D',  edgecolor='black', zorder=110, label='Normal stars')
+ax2.scatter(ug_hii, ri_hiii, c = sns.xkcd_rgb['cerulean'], alpha=0.8, s=50, cmap=plt.cm.hot, marker='o',  edgecolor='black', zorder=110, label='HII galaxies')
 # plt.axhline(y=-0.4, c="k", linestyle='-.', zorder=120)
 # plt.axvline(x=-0.2, c="k", linestyle=':', zorder=120)
 
 # Region where are located the PNe
-result = findIntersection(0.0, -0.4, -0.45, -0.42, 0.0)
+result = findIntersection(0.0, -0.7, -0.45, -0.42, 0.0)
 
 x_new = np.linspace(-15.5, result,  200)
 x_new2 = np.linspace(result, 10.0, 200)
-y = 0*x_new - 0.4
+y = 0*x_new - 0.7
 yy = -0.45*x_new2 - 0.42
 #Mask
 #mask = y >= result_y - 0.5
